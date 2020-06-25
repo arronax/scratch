@@ -1,0 +1,61 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure(2) do |config|
+  config.vm.box="bento/centos-8.1"
+  
+  config.vm.define "pmm" do |pmm|
+    pmm.vm.hostname = "pmm"
+    pmm.vm.network "private_network", ip: "192.168.70.110"
+    pmm.hostmanager.enabled = true
+    pmm.hostmanager.manage_guest = true
+    pmm.hostmanager.ignore_private_ip = false
+
+    config.vm.provider "virtualbox" do |vb|
+      vb.memory = 1024
+      vb.cpus = 1
+      vb.linked_clone = true
+    end
+
+    pmm.vm.provision "shell", inline: <<-SHELL
+      dnf -y install podman telnet wget git vim
+      systemctl start podmand
+      systemctl enable podmand
+      podman pull percona/pmm-server:2
+      podman create \
+        -v /srv \
+        --name pmm-data \
+        percona/pmm-server:2 /bin/true
+      podman run -d \
+        -p 80:80 \
+        -p 443:443 \
+        --volumes-from pmm-data \
+        --name pmm-server \
+        --restart always \
+        percona/pmm-server:2
+    SHELL
+  end
+
+  (1..1).each do |i|
+    config.vm.define "node#{i}" do |node|
+      node.vm.hostname = "node#{i}"
+      node.vm.network "private_network", ip: "192.168.70.10#{i}"
+      node.hostmanager.enabled = true
+      node.hostmanager.manage_guest = true
+      node.hostmanager.ignore_private_ip = false
+
+      config.vm.provider "virtualbox" do |vb|
+        vb.memory = 1024
+        vb.cpus = 1
+        vb.linked_clone = true
+      end
+
+      node.vm.provision "shell", inline: <<-SHELL
+        dnf -y install telnet wget git vim
+        dnf -y install https://repo.percona.com/yum/percona-release-latest.noarch.rpm
+        dnf -y install pmm2-client
+        sleep 30
+        pmm-admin config --server-insecure-tls --server-url="https://admin:admin@192.168.70.110/" 192.168.70.10#{i} generic node#{i}
+      SHELL
+    end
+  end
+end
