@@ -1,0 +1,23 @@
+reset
+set terminal pngcairo size 1440,720 enhanced font 'Helvetica, 12'
+set output sprintf( 'tpcc.'.ARG5.'.'.ARG7.'.png' )
+set title "TPC-C ".ARG6.", ".ARG7."" font ",14"
+set grid
+set xlabel "Time"
+set ylabel "TPS"
+set pointsize 0.5
+set datafile sep ','
+set key left bottom
+f1 = ARG1
+f2 = ARG2
+f3 = ARG3
+f4 = ARG4
+stats f3 using 1:3 nooutput
+set yrange [0:STATS_max_y+300]
+set xrange [0:STATS_max_x+10]
+set xtics time format "%tM"
+plot f1 using 1:3 with points pt 7 lt rgb "#f5793a" title "16 threads", \
+     f2 using 1:3 with points pt 7 lt rgb "#a95aa1" title "32 threads", \
+     f3 using 1:3 with points pt 7 lt rgb "#85c0f9" title "64 threads", \
+     f4 using 1:3 with points pt 7 lt rgb "#0f2080" title "128 threads"
+
