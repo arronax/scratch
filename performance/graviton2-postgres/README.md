@@ -94,15 +94,15 @@ Some todo: investigate the meltdown of m6gd.8xlarge under 64/128 threads IO-boun
 
 Instances side by side
 
-![in-memory 16 threads](./graviton2-postgres/images/tpcc.in-memory.16.png)
-![in-memory 32 threads](./graviton2-postgres/images/tpcc.in-memory.32.png)
-![in-memory 64 threads](./graviton2-postgres/images/tpcc.in-memory.64.png)
-![in-memory 128 threads](./graviton2-postgres/images/tpcc.in-memory.128.png)
+![in-memory 16 threads](./images/tpcc.in-memory.16.png)
+![in-memory 32 threads](./images/tpcc.in-memory.32.png)
+![in-memory 64 threads](./images/tpcc.in-memory.64.png)
+![in-memory 128 threads](./images/tpcc.in-memory.128.png)
 
 All tests for an instance together
 
-![in-memory all m6gd.8xlarge](./graviton2-postgres/images/tpcc.in-memory.m6gd.8xlarge.png)
-![in-memory all m5d.8xlarge](./graviton2-postgres/images/tpcc.in-memory.m5d.8xlarge.png)
+![in-memory all m6gd.8xlarge](./images/tpcc.in-memory.m6gd.8xlarge.png)
+![in-memory all m5d.8xlarge](./images/tpcc.in-memory.m5d.8xlarge.png)
 
 Load with 128 threads is way past the saturation point for both instances, so they show worse results than with 64 threads. Difference over the saturation point is negligible between m5d.8xlarge and m6gd.8xlarge
 
@@ -110,14 +110,14 @@ Load with 128 threads is way past the saturation point for both instances, so th
 
 Instances side by side
 
-![io-bound 16 threads](./graviton2-postgres/images/tpcc.io-bound.16.png)
-![io-bound 32 threads](./graviton2-postgres/images/tpcc.io-bound.32.png)
-![io-bound 64 threads](./graviton2-postgres/images/tpcc.io-bound.64.png)
-![io-bound 128 threads](./graviton2-postgres/images/tpcc.io-bound.128.png)
+![io-bound 16 threads](./images/tpcc.io-bound.16.png)
+![io-bound 32 threads](./images/tpcc.io-bound.32.png)
+![io-bound 64 threads](./images/tpcc.io-bound.64.png)
+![io-bound 128 threads](./images/tpcc.io-bound.128.png)
 
 All tests for an instance together
 
-![io-bound all m6gd.8xlarge](./graviton2-postgres/images/tpcc.io-bound.m6gd.8xlarge.png)
-![io-bound all m5d.8xlarge](./graviton2-postgres/images/tpcc.io-bound.m5d.8xlarge.png)
+![io-bound all m6gd.8xlarge](./images/tpcc.io-bound.m6gd.8xlarge.png)
+![io-bound all m5d.8xlarge](./images/tpcc.io-bound.m5d.8xlarge.png)
 
 m6gd experiences performance falloff at 64 threads, getting more pronounced at 128. At this moment the cause is not clear. Storage is not equal between the two instances, with m5d having 2x local drives in raid0, which is likely playing in its hand.
