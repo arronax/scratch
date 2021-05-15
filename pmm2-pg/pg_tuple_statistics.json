@@ -22,7 +22,7 @@
   "gnetId": 10016,
   "graphTooltip": 1,
   "id": 61,
-  "iteration": 1619464108000,
+  "iteration": 1620327000993,
   "links": [
     {
       "icon": "doc",
@@ -1686,7 +1686,7 @@
       "targets": [
         {
           "dsType": "prometheus",
-          "expr": "increase(pg_stat_user_tables_autovacuum_count{datname=~\"$database\"}[$interval]) or\nirate(pg_stat_user_tables_autovacuum_count{datname=~\"$database\"}[5m])",
+          "expr": "increase(pg_stat_user_tables_autovacuum_count{service_name=\"$service_name\",datname=~\"$database\"}[$interval]) or\nirate(pg_stat_user_tables_autovacuum_count{service_name=\"$service_name\",datname=~\"$database\"}[5m])",
           "format": "time_series",
           "groupBy": [
             {
@@ -1997,7 +1997,7 @@
       "targets": [
         {
           "dsType": "prometheus",
-          "expr": "increase(pg_stat_user_tables_vacuum_count{datname=~\"$database\"}[$interval]) or\nirate(pg_stat_user_tables_vacuum_count{datname=~\"$database\"}[5m])",
+          "expr": "increase(pg_stat_user_tables_vacuum_count{service_name=\"$service_name\", datname=~\"$database\"}[$interval]) or\nirate(pg_stat_user_tables_vacuum_count{service_name=\"$service_name\", datname=~\"$database\"}[5m])",
           "format": "time_series",
           "groupBy": [
             {
@@ -2015,7 +2015,7 @@
           ],
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "{{datname}} - {{relname}}",
+          "legendFormat": "{{datname}} - {{schemaname}} - {{relname}}",
           "metric": "",
           "policy": "default",
           "refId": "A",
@@ -2305,7 +2305,7 @@
       "targets": [
         {
           "dsType": "prometheus",
-          "expr": "increase(pg_stat_user_tables_autoanalyze_count{service_name=\"$service_name\",datname=~\"$database\"}[$interval]) or\nirate(pg_stat_user_tables_autoanalyze_count{service_name=\"$service_name\",datname=~\"$database\"}[5m])",
+          "expr": "increase(pg_stat_user_tables_autoanalyze_count{service_name=\"$service_name\", datname=~\"$database\"}[$interval]) or\nirate(pg_stat_user_tables_autoanalyze_count{service_name=\"$service_name\", datname=~\"$database\"}[5m])",
           "format": "time_series",
           "groupBy": [
             {
@@ -2323,7 +2323,7 @@
           ],
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "{{datname}} - {{relname}}",
+          "legendFormat": "{{datname}} - {{schemaname}} - {{relname}}",
           "metric": "",
           "policy": "default",
           "refId": "A",
@@ -2411,8 +2411,8 @@
       "scroll": true,
       "showHeader": true,
       "sort": {
-        "col": 1,
-        "desc": true
+        "col": 3,
+        "desc": false
       },
       "styles": [
         {
@@ -2614,7 +2614,7 @@
       "targets": [
         {
           "dsType": "prometheus",
-          "expr": "increase(pg_stat_user_tables_analyze_count{service_name=\"$service_name\",datname=~\"$database\"}[$interval]) or\nirate(pg_stat_user_tables_analyze_count{service_name=\"$service_name\",datname=~\"$database\"}[5m])",
+          "expr": "increase(pg_stat_user_tables_analyze_count{service_name=\"$service_name\", datname=~\"$database\"}[$interval]) or\nirate(pg_stat_user_tables_analyze_count{service_name=\"$service_name\", datname=~\"$database\"}[5m])",
           "format": "time_series",
           "groupBy": [
             {
@@ -2632,7 +2632,7 @@
           ],
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "{{datname}} - {{relname}}",
+          "legendFormat": "{{datname}} - {{schemaname}} - {{relname}}",
           "metric": "",
           "policy": "default",
           "refId": "A",
@@ -2934,7 +2934,7 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "li2158-135.members.linode.com-postgresql",
           "value": "li2158-135.members.linode.com-postgresql"
         },
@@ -2979,7 +2979,7 @@
         "name": "database",
         "options": [],
         "query": "label_values(pg_stat_database_tup_fetched{service_name=\"$service_name\",datname!~\"template.*|postgres\"},datname)",
-        "refresh": 2,
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
@@ -3024,5 +3024,5 @@
   "timezone": "browser",
   "title": "PostgreSQL Tuple Statistics (Designed for PMM2)",
   "uid": "gTf6Xk9Mk",
-  "version": 29
-
+  "version": 34
+}
