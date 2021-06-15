@@ -1,0 +1,65 @@
+reset
+#connections = "16 64 128 256 512 1024 1536"
+connections = "16 64 128 256 512 1024"
+allocators = "glibc jemalloc360 jemalloc521 jemalloc521-profiling_22_28 jemalloc521-profiling_19_26"
+tests = "oltp_read_only oltp_point_select"
+set datafile sep ','
+set grid
+set xlabel "Time (s)"
+set ylabel "TPS"
+set xtics time format "%tS"
+set terminal pngcairo size 1440,720 enhanced font 'Helvetica, 12'
+# OLTP Read Only
+do for [cn in connections] {
+  set xrange [*:*]
+  set yrange [*:*]
+  miny = 30000
+  maxy = 0
+  maxx = 0
+  i = 1
+  array files[5]
+  do for [al in allocators] {
+      files[i] = system('ls -1B '.al.'.oltp_read_only.'.cn.'.csv')
+      stats files[i] using 1:3 nooutput
+      if (maxy < STATS_max_y) { maxy = STATS_max_y }
+      if (miny > STATS_min_y) { miny = STATS_min_y }
+      if (maxx < STATS_max_x) { maxx = STATS_max_x }
+      i = i+1
+  }
+  set output sprintf('oltp_read_only.'.cn.'.png')
+  set title "OLTP Read Only TPS ".cn." connections" font ", 14"
+  set yrange [miny-300:maxy+300]
+  set xrange [0:maxx+10]
+  plot files[1] using 1:3 with points pt 7 title "glibc", \
+       files[2] using 1:3 with points pt 7 title "jemalloc 3.6.0", \
+       files[3] using 1:3 with points pt 7 title "jemalloc 5.2.1", \
+       files[4] using 1:3 with points pt 7 title "jemalloc 5.2.1 prof 22/28", \
+       files[5] using 1:3 with points pt 7 title "jemalloc 5.2.1 prof 19/26"
+}
+# OLTP Point Select
+do for [cn in connections] {
+  set xrange [*:*]
+  set yrange [*:*]
+  miny = 3000000
+  maxy = 0
+  maxx = 0
+  i = 1
+  array files[5]
+  do for [al in allocators] {
+      files[i] = system('ls -1B '.al.'.oltp_point_select.'.cn.'.csv')
+      stats files[i] using 1:3 nooutput
+      if (maxy < STATS_max_y) { maxy = STATS_max_y }
+      if (miny > STATS_min_y) { miny = STATS_min_y }
+      if (maxx < STATS_max_x) { maxx = STATS_max_x }
+      i = i+1
+  }
+  set output sprintf('oltp_point_select.'.cn.'.png')
+  set title "OLTP Point Select TPS ".cn." connections" font ", 14"
+  set yrange [miny-3000:maxy+3000]
+  set xrange [0:maxx+10]
+  plot files[1] using 1:3 with points pt 7 title "glibc", \
+       files[2] using 1:3 with points pt 7 title "jemalloc 3.6.0", \
+       files[3] using 1:3 with points pt 7 title "jemalloc 5.2.1", \
+       files[4] using 1:3 with points pt 7 title "jemalloc 5.2.1 prof 22/28", \
+       files[5] using 1:3 with points pt 7 title "jemalloc 5.2.1 prof 19/26"
+}

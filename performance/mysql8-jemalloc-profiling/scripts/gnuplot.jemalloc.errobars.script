@@ -1,0 +1,56 @@
+reset
+
+set datafile sep ','
+
+#connections = "16 64 128 256 512 1024 1536"
+connections = "16 64 128 256 512 1024"
+allocators = "glibc jemalloc360 jemalloc521 jemalloc521-profiling_22_28 jemalloc521-profiling_19_26"
+tests = "oltp_read_only oltp_point_select"
+
+do for [test in tests] {
+  set print test.".dat"
+  print 'Connections, glibc, me, jemalloc 3.6.0, me, jemalloc 5.2.1, me, jemalloc 5.2.1 prof 22/28, me, jemalloc 5.2.1 prof 19/26, me'
+  set print test.".dat" append
+  do for [cn in connections] {
+    measurements=''
+    do for [al in allocators] {
+      file = system('ls -1B '.al.'.'.test.'.'.cn.'.csv')
+      stats file using 1:3 nooutput
+      measurements=measurements.','.sprintf("%f",STATS_mean_y).','.sprintf("%f",STATS_mean_err_y)
+    }
+    print cn.measurements
+  }
+}
+
+set style data histogram
+set style histogram errorbars gap 1 lw 1.3
+set style fill solid border rgb "black"
+set auto x
+set yrange [0:*]
+
+set xlabel "Connections"
+set ylabel "TPS"
+set grid ytics
+
+
+set terminal pngcairo size 1440,720 enhanced font 'Helvetica, 12'
+
+set title "OLTP Point Select TPS with stderr" font ", 14"
+set output 'oltp_point_select.stderr.png'
+
+plot 'oltp_point_select.dat' using 2:3:xtic(1) title col, \
+        '' using 4:5:xtic(1) title col, \
+        '' using 6:7:xtic(1) title col, \
+        '' using 8:9:xtic(1) title col, \
+        '' using 10:11:xtic(1) title col
+
+set title "OLTP Read Only TPS with stderr" font ", 14"
+set output 'oltp_read_only.stderr.png'
+
+plot 'oltp_read_only.dat' using 2:3:xtic(1) title col, \
+        '' using 4:5:xtic(1) title col, \
+        '' using 6:7:xtic(1) title col, \
+        '' using 8:9:xtic(1) title col, \
+        '' using 10:11:xtic(1) title col
+
+

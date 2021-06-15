@@ -1,0 +1,33 @@
+[2021-03-08T13:41:33+0000]: Warming up the instance after restart
+[2021-03-08T13:41:33+0000]: Running select avg(id) from sbtest1 FORCE KEY (PRIMARY)
+mysql: [Warning] Using a password on the command line interface can be insecure.
+avg(id)
+25000000.5000
+[2021-03-08T13:41:50+0000]: Running select avg(id) from sbtest2 FORCE KEY (PRIMARY)
+mysql: [Warning] Using a password on the command line interface can be insecure.
+avg(id)
+25000000.5000
+[2021-03-08T13:42:06+0000]: Running select avg(id) from sbtest3 FORCE KEY (PRIMARY)
+mysql: [Warning] Using a password on the command line interface can be insecure.
+avg(id)
+25000000.5000
+[2021-03-08T13:42:23+0000]: Running select avg(id) from sbtest4 FORCE KEY (PRIMARY)
+mysql: [Warning] Using a password on the command line interface can be insecure.
+avg(id)
+25000000.5000
+[2021-03-08T13:42:40+0000]: Running OLTP_RO for 600 seconds
+[2021-03-08T13:42:40+0000]: Running sysbench test with following arguments
+[2021-03-08T13:42:40+0000]: test: oltp_read_only; threads: 16; duration: 600; label: warmup
+[2021-03-08T13:42:40+0000]: logfile: /opt/performance/jemalloc521.warmup.oltp_read_only.16.2021-03-08_134240.log
+[2021-03-08T13:52:40+0000]: ============================================================
+[2021-03-08T13:52:40+0000]:  Starting test run: oltp_read_only at 1536 threads
+[2021-03-08T13:52:40+0000]: ============================================================
+[2021-03-08T13:52:40+0000]: Running sysbench test with following arguments
+[2021-03-08T13:52:40+0000]: test: oltp_read_only; threads: 1536; duration: 300; label: run
+[2021-03-08T13:52:40+0000]: logfile: /opt/performance/jemalloc521.run.oltp_read_only.1536.2021-03-08_135240.log
+[2021-03-08T13:57:41+0000]: ============================================================
+[2021-03-08T13:57:41+0000]:  Starting test run: oltp_point_select at 1536 threads
+[2021-03-08T13:57:41+0000]: ============================================================
+[2021-03-08T13:57:41+0000]: Running sysbench test with following arguments
+[2021-03-08T13:57:41+0000]: test: oltp_point_select; threads: 1536; duration: 300; label: run
+[2021-03-08T13:57:41+0000]: logfile: /opt/performance/jemalloc521.run.oltp_point_select.1536.2021-03-08_135741.log
