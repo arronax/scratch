@@ -28,7 +28,7 @@ pg_stat_statements:
             pg_stat_statements.wal_bytes
          FROM pg_stat_statements
          JOIN pg_database
-         ON pg_database.oid = pg_stat_statements.dbid;"
+         ON pg_database.oid = pg_stat_statements.dbid"
   metrics:
     - user:
         usage: "LABEL"
