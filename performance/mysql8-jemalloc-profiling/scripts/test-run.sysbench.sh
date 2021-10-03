@@ -25,19 +25,19 @@ sysbench_run_test() {
   log "logfile: /opt/performance/${global_label}.${label}.${test}.${threads}.${datetime}.log"
 
   sysbench \
-	"/usr/share/sysbench/${test}.lua" \
-	--db-driver=mysql \
+    "/usr/share/sysbench/${test}.lua" \
+    --db-driver=mysql \
     --mysql-host=127.0.0.1 \
-	--mysql-user="${user}" \
-	--mysql-password="${password}" \
-	--mysql-db="${database}" \
-	--mysql-ignore-errors=all \
-	--tables="${tables}" \
-	--table_size="${table_size}" \
-	--report-interval=1 \
-	--threads="${threads}" \
-	--time="${duration}" \
-	run 1>"/opt/performance/${global_label}.${label}.${test}.${threads}.${datetime}.log"
+    --mysql-user="${user}" \
+    --mysql-password="${password}" \
+    --mysql-db="${database}" \
+    --mysql-ignore-errors=all \
+    --tables="${tables}" \
+    --table_size="${table_size}" \
+    --report-interval=1 \
+    --threads="${threads}" \
+    --time="${duration}" \
+    run 1>"/opt/performance/${global_label}.${label}.${test}.${threads}.${datetime}.log"
 }
 
 warmup() {
@@ -54,7 +54,7 @@ main() {
   warmup
   ## oltp_ro
   test="oltp_read_only"
-  for threads in {16,64,128,256,512,1024,1536}; do
+  for threads in {16,64,128,256,512,1024}; do
     log "============================================================"
     log " Starting test run: ${test} at ${threads} threads"
     log "============================================================"
@@ -62,7 +62,7 @@ main() {
   done
   ## point_select
   test="oltp_point_select"
-  for threads in {16,64,128,256,512,1024,1536}; do
+  for threads in {16,64,128,256,512,1024}; do
     log "============================================================"
     log " Starting test run: ${test} at ${threads} threads"
     log "============================================================"
