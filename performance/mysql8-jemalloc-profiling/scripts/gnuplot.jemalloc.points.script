@@ -1,7 +1,7 @@
 reset
 #connections = "16 64 128 256 512 1024 1536"
 connections = "16 64 128 256 512 1024"
-allocators = "glibc jemalloc360 jemalloc521 jemalloc521-profiling_22_28 jemalloc521-profiling_19_26"
+allocators = "glibc-217 jemalloc360 jemalloc521 jemalloc521-profiling_22_28 jemalloc521-profiling_19_26"
 tests = "oltp_read_only oltp_point_select"
 set datafile sep ','
 set grid
@@ -30,7 +30,7 @@ do for [cn in connections] {
   set title "OLTP Read Only TPS ".cn." connections" font ", 14"
   set yrange [miny-300:maxy+300]
   set xrange [0:maxx+10]
-  plot files[1] using 1:3 with points pt 7 title "glibc", \
+  plot files[1] using 1:3 with points pt 7 title "glibc 2.17", \
        files[2] using 1:3 with points pt 7 title "jemalloc 3.6.0", \
        files[3] using 1:3 with points pt 7 title "jemalloc 5.2.1", \
        files[4] using 1:3 with points pt 7 title "jemalloc 5.2.1 prof 22/28", \
@@ -57,7 +57,7 @@ do for [cn in connections] {
   set title "OLTP Point Select TPS ".cn." connections" font ", 14"
   set yrange [miny-3000:maxy+3000]
   set xrange [0:maxx+10]
-  plot files[1] using 1:3 with points pt 7 title "glibc", \
+  plot files[1] using 1:3 with points pt 7 title "glibc 2.17", \
        files[2] using 1:3 with points pt 7 title "jemalloc 3.6.0", \
        files[3] using 1:3 with points pt 7 title "jemalloc 5.2.1", \
        files[4] using 1:3 with points pt 7 title "jemalloc 5.2.1 prof 22/28", \

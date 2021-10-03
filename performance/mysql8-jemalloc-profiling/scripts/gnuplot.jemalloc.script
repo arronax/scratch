@@ -2,14 +2,13 @@ reset
 
 set datafile sep ','
 
-#connections = "16 64 128 256 512 1024 1536"
 connections = "16 64 128 256 512 1024"
-allocators = "glibc jemalloc360 jemalloc521 jemalloc521-profiling_22_28 jemalloc521-profiling_19_26"
+allocators = "glibc-217 jemalloc360 jemalloc521 jemalloc521-profiling_22_28 jemalloc521-profiling_19_26"
 tests = "oltp_read_only oltp_point_select"
 
 do for [test in tests] {
   set print test.".dat"
-  print 'Connections, glibc, jemalloc 3.6.0, jemalloc 5.2.1, jemalloc 5.2.1 prof 22/28, jemalloc 5.2.1 prof 19/26'
+  print 'Connections, glibc 2.17, jemalloc 3.6.0, jemalloc 5.2.1, jemalloc 5.2.1 prof 22/28, jemalloc 5.2.1 prof 19/26'
   set print test.".dat" append
   do for [cn in connections] {
     measurements=''
