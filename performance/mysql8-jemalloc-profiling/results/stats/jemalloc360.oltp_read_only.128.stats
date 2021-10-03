@@ -1,0 +1,26 @@
+SQL statistics:
+    queries performed:
+        read:                            64349894
+        write:                           0
+        other:                           9192842
+        total:                           73542736
+    transactions:                        4596421 (15319.97 per sec.)
+    queries:                             73542736 (245119.54 per sec.)
+    ignored errors:                      0      (0.00 per sec.)
+    reconnects:                          0      (0.00 per sec.)
+
+General statistics:
+    total time:                          300.0267s
+    total number of events:              4596421
+
+Latency (ms):
+         min:                                    1.45
+         avg:                                    8.35
+         max:                                   88.63
+         95th percentile:                        9.39
+         sum:                             38388190.16
+
+Threads fairness:
+    events (avg/stddev):           35909.5391/2259.06
+    execution time (avg/stddev):   299.9077/0.01
+
