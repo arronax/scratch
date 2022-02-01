@@ -1,0 +1,17 @@
+FROM registry.access.redhat.com/ubi7/ubi-minimal AS jemalloc_builder
+RUN mkdir -p /opt/jemalloc/lib \
+  && microdnf install -y \
+  git \
+  autoconf \
+  gcc \
+  make \
+  && git clone https://github.com/jemalloc/jemalloc/ /opt/jemalloc-src \
+  && cd /opt/jemalloc-src \
+  && git checkout tags/5.2.1 \
+  && ./autogen.sh \
+  && ./configure --enable-prof --prefix /opt/jemalloc \
+  && make -j 8 \
+  && make install;
+
+FROM percona/percona-xtradb-cluster:5.7.30-31.43
+COPY --from=jemalloc_builder /opt/jemalloc/lib/libjemalloc.so.2 /usr/lib64/
